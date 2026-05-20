@@ -1,10 +1,11 @@
 function echoType(input){
-    let typeInput = typeof(input);
-    console.log(typeInput);
-    if(typeInput === "string" || typeInput === "number"){
+    let typeOfInput = typeof(input);
+    console.log(typeOfinput);
+
+    if(typeOfInput === 'string' || typeOfInput === 'number'){
         console.log(input);
     }else{
-        console.log('Parameter is not suitable for printing');
+        console.log('Parameter is not suitable for printing')
     }
 }
-echoType(null);
+echoType('Hello, JavaScript!');``
