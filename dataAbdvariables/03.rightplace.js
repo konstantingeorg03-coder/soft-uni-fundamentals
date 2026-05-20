@@ -1,10 +1,10 @@
 function rightPlace(word, symbol, checkWord){
-    let result = word.replace('_', symbol);
+    let correctWord = word.replace('_', symbol);
 
-    if(result === checkWord){
+    if(correctWord === checkWord){
         console.log('Matched');
     }else{
-        console.log('Not Matched');
+        console.log('Not matched');
     }
 }
-rightPlace('Str_ng', 'I', 'String');
+rightPlace('Str_ng', 'i', 'String');
