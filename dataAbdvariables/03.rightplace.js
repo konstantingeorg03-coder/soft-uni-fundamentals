@@ -4,7 +4,7 @@ function rightPlace(word, symbol, checkWord){
     if(correctWord === checkWord){
         console.log('Matched');
     }else{
-        console.log('Not matched');
+        console.log('Not Matched');
     }
 }
 rightPlace('Str_ng', 'i', 'String');
