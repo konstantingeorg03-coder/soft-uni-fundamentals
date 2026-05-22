@@ -1,12 +1,13 @@
 function amazingNumbers(num){
     let sum = 0;
-    let numberAsString = num.toString();
     
-    for(let i = 0; i < numberAsString.length; i++){
-        sum += Number(numberAsString[i]);
-    }
-    let isAmazing = sum.toString().includes('9');
+    num = num.toString();
 
-    console.log(`${num} Amazing? ${isAmazing ? 'True' : 'False'} `);
-}
+    for(let i = 0; i < num.length; i++){
+        sum += Number(num[i]);
+    }
+    let result = sum.toString().includes('9');
+
+    console.log(`${num} Amazing? ${result ? 'True' : 'False'}`);
+}    
 amazingNumbers(1233);
