@@ -5,8 +5,9 @@ function specialNumbers(n){
         let numberAsString = String(i);
 
         for(let j = 0; j < numberAsString.length; j++){
-            let currentDigit = numberAsString[j];
-            sum += Number(currentDigit);
+            let currenDigit = numberAsString[j];
+
+            sum += Number(currenDigit);
         }
         if(sum === 5 || sum === 7 || sum === 11){
             console.log(`${i} -> True`);
