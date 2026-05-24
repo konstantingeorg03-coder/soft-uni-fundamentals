@@ -8,6 +8,6 @@ function amazingNumbers(num){
     }
     let result = sum.toString().includes('9');
 
-    console.log(`${sum} Amazing? ${result ? 'True' : 'False'}`);
+    console.log(`${num} Amazing? ${result ? 'True' : 'False'}`);
 }
 amazingNumbers(1233);``
