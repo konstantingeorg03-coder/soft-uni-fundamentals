@@ -1,19 +1,18 @@
 function guessPassword(array){
-    let username = array[0];
-    let correctPassword = username.split(''). reverse().join('');
-    let currentTry = 1;
-    for(let i = 1; i < array.length; i++){
-        let passwordGuess = array[i];
-        if(passwordGuess === correctPassword){
-            console.log(`User ${username} logged in.`);
-            break;
+      for(let i = 1; i <= n; i++){
+        let sum = 0;
+
+        let numberAsString = String(i);
+
+        for(let j = 0; j < numberAsString.length; j++){
+            let currenDigit = numberAsString[j];
+
+            sum += Number(currenDigit);
+        }
+        if(sum === 5 || sum === 7 || sum === 11){
+            console.log(`${i} -> True`);
         }else{
-            if(currentTry === 4){
-                console.log(`User ${username} blocked!`);
-                break;
-            }
-            console.log('Incorrect password. Try again.');
-            currentTry++;
+            console.log(`${i} -> False`);
         }
     }
 }
