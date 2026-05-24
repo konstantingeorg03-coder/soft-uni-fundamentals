@@ -8,4 +8,4 @@ function echoType(input){
         console.log('Parameter is not suitable for printing');
     }
 }
-echoType('Hello, JavaScript!');``
+echoType('Hello, JavaScript!');
