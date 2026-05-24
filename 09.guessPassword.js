@@ -1,5 +1,5 @@
 function guessPassword(array){
-      for(let i = 1; i <= n; i++){
+      for(let i = 1; i <= array.length; i++){
         let sum = 0;
 
         let numberAsString = String(i);
