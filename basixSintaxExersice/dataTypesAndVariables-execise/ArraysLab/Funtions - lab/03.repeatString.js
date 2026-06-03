@@ -1,12 +1,13 @@
 function repeatString(text, n){
-    let result = '';
+    let count = '';
 
     for(let i = 0; i < n; i++){
-        result += text;
+        count += text;
     }
-    return result;
+
+    return count;
 }
 
-    let inpuText = repeatString('abc', 3);
+let result = repeatString("abc", 3);
 
-    console.log(inpuText);
+console.log(result);
