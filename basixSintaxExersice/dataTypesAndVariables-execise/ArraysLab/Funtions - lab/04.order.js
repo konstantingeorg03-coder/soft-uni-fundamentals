@@ -1,5 +1,6 @@
 function calculateOrder(product, quantity){
     let price = 0;
+
     if(product === 'coffee'){
         price = 1.50;
     }else if(product === 'water'){
@@ -10,7 +11,11 @@ function calculateOrder(product, quantity){
         price = 2.00;
     }
 
-    let fullOrder = price * quantity;
+    let result = price * quantity;
 
-    return fullOrder.toFixed(2);
+    return result.toFixed(2);
 }
+
+console.log (calculateOrder('water', 5));
+
+
