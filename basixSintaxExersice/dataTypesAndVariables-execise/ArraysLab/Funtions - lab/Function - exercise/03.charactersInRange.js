@@ -1,20 +1,17 @@
 function charactersInRange(char1, char2){
-    let charsInBetween = [];
+    let charInBetween = [];
 
-    let ascii1 = char1.charCodeAt();
-    let ascii2 = char2.charCodeAt();
+    let simbol1 = char1.charCodeAt();
+    let simbol2 = char2.charCodeAt();
 
-    let minAscii = Math.min(ascii1, ascii2);
-    let maxAscii = Math.max(ascii1, ascii2);
+    let start = Math.min(simbol1, simbol2);
+    let end = Math.max(simbol1, simbol2);
 
-    for(let ascii = minAscii + 1; ascii < maxAscii; ascii++){
-        
-        let currentChar = String.fromCharCode(ascii);
-
-        charsInBetween.push(currentChar);
+    for(let i = start + 1; i < end; i++){
+        let stringChar = String.fromCharCode(i);
+        charInBetween.push(stringChar);
     }
-
-    console.log(charsInBetween.join(' '));
+    
+    console.log(charInBetween.join(' '));
 }
-
 charactersInRange('#', ':'); 
