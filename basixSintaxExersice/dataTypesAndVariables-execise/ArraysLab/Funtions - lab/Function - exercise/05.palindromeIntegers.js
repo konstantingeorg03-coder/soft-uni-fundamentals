@@ -1,15 +1,17 @@
 function palindromeIntegers(arr){
     for(let num of arr){
-        let isPalindrame = checkIsPalindrome(num);
-        console.log(isPalindrame); 
-    }
+
+        let isPalindrome = checkIsPalindrome(num);
+
+        console.log(isPalindrome);
+    }   
 
     function checkIsPalindrome(num){
         let numAsString = String(num);
-        let reverseNumAsString = numAsString.split('').reverse().join('');
 
-        return numAsString === reverseNumAsString;
+        let reverseString = numAsString.split('').reverse().join('');
+
+        return numAsString === reverseString;
     }
 }
-
 palindromeIntegers([123, 323, 421, 121]);
