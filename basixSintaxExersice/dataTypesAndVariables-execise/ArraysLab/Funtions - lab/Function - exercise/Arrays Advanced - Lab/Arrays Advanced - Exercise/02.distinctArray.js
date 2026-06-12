@@ -1,11 +1,11 @@
 function distinctArray(arr){
-    let neededArr = [];
+    let row = [];
 
-    for(let el of arr){
-        if(!neededArr.includes(el)){
-            neededArr.push(el);
+    for(let num of arr){
+        if(!row.includes(num)){
+            row.push(num);
         }
     }
-    console.log(neededArr.join(' '));
+    console.log(row.join(' '));
 }
 distinctArray([7, 8, 9, 7, 2, 3, 4, 1, 2]);
