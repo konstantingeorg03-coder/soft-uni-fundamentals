@@ -9,7 +9,7 @@ function houseParty(arr){
             if(!guests.includes(name)){
                 guests.push(name);
             }else{
-                console.log(`${name} is already in the list!`);
+                console.log(`${name} is already in the list!`)
             }
         }else if(command.includes('is not going')){
             let tokens = command.split(' ');
