@@ -1,49 +1,37 @@
-function solve(arr){
-    let list = arr.shift().split('!');
-    let command = arr.shift();
+function taxCalculator(arr){
+    let vehicleChar = arr.shift().split('>>');
+    let totalTax = 0;
 
-    while(command !== 'Go Shopping!
-        '){
-        let [action, item, newItem] = command.split(' ');
+    for(let command of vehicleChar){
+        let [type, years, km] = command.split(' ');
+        years = Number(years);
+        km = Number(km);
 
-        if(action === 'Urgent'){
+        let tax = 0;
 
-            if(!list.includes(item)){
-                list.unshift(item);
-            }
+        if(type === 'family'){
+            tax = 50;
+            tax -= 5 * years;
+            tax += Math.floor(km / 3000) * 12;
 
-        }else if(action === 'Unnecessary'){
+        }else if(type === 'heavyDuty'){
+            tax = 80;
+            tax -= 8 * years;
+            tax += Math.floor(km / 9000) * 14;
 
-            let idx = list.indexOf(item);
-            if(idx !== -1){
-                list.splice(idx, 1);
-            }
-
-        }else if(action === 'Correct'){
-
-            let idx = list.indexOf(item);
-            if(idx !== -1){
-                list.splice(idx, 1, newItem);
-            }
-
-        }else if(action === 'Rearrange'){
-
-            let idx = list.indexOf(item);
-            if(idx !== -1){
-                list.splice(idx, 1);
-                list.push(item);
-
-
-            }
+        }else if(type === 'sports'){
+            tax = 100;
+            tax -= 9 * years;
+            tax += Math.floor(km / 2000) * 18;
+        }else{
+            console.log('Invalid car type!');
+            continue;
         }
-        command = arr.shift();
+
+        console.log(`A ${type} car will pay ${tax.toFixed(2)} euros in taxes.`);
+        totalTax += tax;
     }
-    console.log(list.join(', '));
+
+    console.log(`The National Revenue Agency will collect ${totalTax.toFixed(2)} euros in taxes.`);
 }
-solve (["Milk!Pepper!Salt!Water!Banana",
-"Urgent Salt",
-"Unnecessary Grapes",
-"Correct Pepper Onion",
-"Rearrange Grapes",
-"Correct Tomatoes Potatoes",
-"Go Shopping!"]);
+taxCalculator(['family 3 7210>>van 4 2345>>heavyDuty 9 31000>>sports 4 7410'])
