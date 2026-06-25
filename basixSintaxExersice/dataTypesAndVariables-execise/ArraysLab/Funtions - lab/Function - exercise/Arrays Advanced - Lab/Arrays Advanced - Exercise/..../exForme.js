@@ -1,37 +1,23 @@
-function taxCalculator(arr){
-    let vehicleChar = arr.shift().split('>>');
-    let totalTax = 0;
-
-    for(let command of vehicleChar){
-        let [type, years, km] = command.split(' ');
-        years = Number(years);
-        km = Number(km);
-
-        let tax = 0;
-
-        if(type === 'family'){
-            tax = 50;
-            tax -= 5 * years;
-            tax += Math.floor(km / 3000) * 12;
-
-        }else if(type === 'heavyDuty'){
-            tax = 80;
-            tax -= 8 * years;
-            tax += Math.floor(km / 9000) * 14;
-
-        }else if(type === 'sports'){
-            tax = 100;
-            tax -= 9 * years;
-            tax += Math.floor(km / 2000) * 18;
-        }else{
-            console.log('Invalid car type!');
-            continue;
+function solve(arr) {
+    class Cat{
+        constructor(name, age){
+            this.name = name;
+            this.age = age;
         }
-
-        console.log(`A ${type} car will pay ${tax.toFixed(2)} euros in taxes.`);
-        totalTax += tax;
+        solve(){
+            console.log(`${this.name}, age ${this.age} says Meow`);
+        }
     }
 
-    console.log(`The National Revenue Agency will collect ${totalTax.toFixed(2)} euros in taxes.`);
+    for(let data of arr){
+        let current = data.split(' ');
+
+        let dogName = current[0];
+        let dogAge = current[1];
+
+        let usedCat = new Cat(dogName, dogAge);
+
+        usedCat.solve();
+    }
 }
-taxCalculator(['family 3 7210>>van 4 2345>>heavyDuty 9 31000>>sports 4 7410'])
+solve(['Mellow 2', 'Tom 5']);
