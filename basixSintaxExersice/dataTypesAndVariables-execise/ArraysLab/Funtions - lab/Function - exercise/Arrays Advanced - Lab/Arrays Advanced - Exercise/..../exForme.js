@@ -1,23 +1,17 @@
-function solve(arr) {
-    class Cat{
-        constructor(name, age){
-            this.name = name;
-            this.age = age;
-        }
-        solve(){
-            console.log(`${this.name}, age ${this.age} says Meow`);
-        }
-    }
+function solve(arr){
+    for(let names of arr){
+        let [name, longitude, latitude] = names.split(' | ');
+        latitude = Number(latitude);
+        longitude = Number(longitude);
 
-    for(let data of arr){
-        let current = data.split(' ');
+        let namesObj = {
+            name: name,
+            latitude: latitude.toFixed(2),
+            longitude: longitude.toFixed(2)
+        };
 
-        let dogName = current[0];
-        let dogAge = current[1];
-
-        let usedCat = new Cat(dogName, dogAge);
-
-        usedCat.solve();
+        console.log(namesObj);
     }
 }
-solve(['Mellow 2', 'Tom 5']);
+solve(['Sofia | 42.696552 | 23.32601',
+'Beijing | 39.913818 | 116.363625']);
