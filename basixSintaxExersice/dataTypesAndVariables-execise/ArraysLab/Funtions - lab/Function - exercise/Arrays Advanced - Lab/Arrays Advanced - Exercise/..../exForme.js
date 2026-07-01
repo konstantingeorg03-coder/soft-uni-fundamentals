@@ -1,45 +1,20 @@
 function solve(arr){
-    let newArr = [];
+    let students = {};
 
-    for(let command of arr){
-        if(command.includes('addMovie')){
-            let token = command.split('addMovie ');
-            let usedToken = token[1];
+    for(let entry of arr){
+        let [name, grade] = entry.split(' ');
 
-            newArr.push({name: usedToken})
-        }else if(command.includes('directedBy')){
-            let token = command.split(' directedBy ');
-            let [movieName, movieDirector] = token;
-
-            let movieFound = newArr.find(movie => movie.name === movieName);
-            if(movieFound){
-                movieFound.director = movieDirector;
-            }
-        }else if(command.includes('onDate')){
-            let token = command.split(' onDate ');
-            let [movieName, date] = token;
-
-            let movieFound = newArr.find(movie => movie.name === movieName);
-            if(movieFound){
-                movieFound.date = movieFound;
-
-            }
-        }
+        students[name] = grade;
     }
 
-    for(let dataObj of newArr){
-        if(dataObj.name && dataObj.director && dataObj.date){
-            console.log(dataObj);
-        }
+    for(let key in students){
+        console.log(`${key} -> ${students[key]}`);
     }
 }
 solve([
-'addMovie Fast and Furious',
-'addMovie Godfather',
-'Inception directedBy Christopher Nolan',
-'Godfather directedBy Francis Ford Coppola',
-'Godfather onDate 29.07.2018',
-'Fast and Furious onDate 30.07.2018',
-'Batman onDate 01.08.2018',
-'Fast and Furious directedBy Rob Cohen'
+'Peter 5.50',
+'Maria 6.00',
+'Peter 4.50',
+'Ivan 5.00',
+'Maria 5.75'
 ]);
