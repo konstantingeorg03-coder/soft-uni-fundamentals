@@ -3,34 +3,33 @@ function solve(arr){
 
     for(let command of arr){
         if(command.includes('addMovie')){
-            let current = command.split('addMovie ');
-            let movie = current[1];
+            let token = command.split('addMovie ');
+            let usedToken = token[1];
 
-            newArr.push({ name: movie});
+            newArr.push({name: usedToken})
         }else if(command.includes('directedBy')){
-            let current = command.split(' directedBy ');
-            let [nameMovie, movieDirector] = current;
+            let token = command.split(' directedBy ');
+            let [movieName, movieDirector] = token;
 
-            let movieFound = newArr.find(movie => movie.name === nameMovie);
-
+            let movieFound = newArr.find(movie => movie.name === movieName);
             if(movieFound){
                 movieFound.director = movieDirector;
             }
         }else if(command.includes('onDate')){
-            let current = command.split(' onDate ');
-            let [nameMovie, movieDate] = current;
+            let token = command.split(' onDate ');
+            let [movieName, date] = token;
 
-            let movieFound = newArr.find(movie => movie.name === nameMovie);
-
+            let movieFound = newArr.find(movie => movie.name === movieName);
             if(movieFound){
-                movieFound.date = movieDate;
+                movieFound.date = movieFound;
+
             }
         }
     }
 
-    for(let data of newArr){
-        if(data.name && data.director && data.date){
-            console.log(JSON.stringify(data))
+    for(let dataObj of newArr){
+        if(dataObj.name && dataObj.director && dataObj.date){
+            console.log(dataObj);
         }
     }
 }
