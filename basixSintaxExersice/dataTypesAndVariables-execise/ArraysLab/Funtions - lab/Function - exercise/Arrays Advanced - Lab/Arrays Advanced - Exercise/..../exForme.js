@@ -1,39 +1,33 @@
-function solve(arr){
-    let map = new Map();
+function solve (arr) {
+    let targetWords = arr.shift().split(' ');
 
-    for(let data of arr){
-        let [name, ...grades] = data.split(' ');
+    let word = {};
 
-        grades = grades.map(Number);
+    for(let data of targetWords){
+        word[data] = 0;
+    }
 
-        if(map.has(name)){
-            let currentGrades = map.get(name);
-
-            let arrayGrades = currentGrades.concat(grades);
-
-            map.set(name, arrayGrades);
-        }else{
-            map.set(name, grades);
+    for(let words of arr){
+        if(words in word){
+            word[words]++;
         }
     }
 
-    let sorted = Array.from(map.entries());
+    let sorted = Object.entries(word).sort((a, b) => b[1] - a[1]);
 
-    sorted.sort((a, b) => a[0].localeCompare(b[0]));
-
-    for(let [name, grades] of sorted){
-        let sum = 0;
-
-        for(let elements of grades){
-            sum += elements
-        }
-
-        let average = sum / grades.length;
-
-        console.log(`${name} -> ${average.toFixed(2)}`);
+    for(let [word, occurences] of sorted){
+        console.log(`${word} -> ${occurences}`); 
     }
 }
-solve(['Lilly 4 6 6 5',
-'Tim 5 6',
-'Tammy 2 4 3',
-'Tim 6 6']);
+solve([
+'this sentence',
+'In',
+'this',
+'sentence',
+'you',
+'have',
+'to',
+'count',
+'this',
+'sentence'
+]);
