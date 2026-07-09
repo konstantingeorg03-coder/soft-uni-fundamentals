@@ -1,6 +1,22 @@
-function solve(word, startindex, count){
-    let usedIndex = word.substring(startindex, startindex + count);
+function solve(text, searchWord){
+    text = text.replaceAll('!', ' ');
+    text = text.replaceAll('?', ' ');
+    text = text.replaceAll('.', ' ');
+    text = text.replaceAll(',', ' ');
+    text = text.replaceAll(';', ' ');
+    text = text.replaceAll(':', ' ');
 
-    console.log(usedIndex);
+    let splitText = text.split(' ');
+
+    let count = 0;
+
+    for(let element of splitText){
+        if(element === searchWord){
+            count++;
+        }
+    }
+
+    console.log(count);
 }
-solve('ASentence', 1, 8)
+solve('This is a word and it also is a sentence',
+'is');
