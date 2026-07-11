@@ -1,8 +1,13 @@
-function solve(text, word) {
-    if(text.includes(word)){
-        console.log('Found');
-    }else{
-        console.log('Not Found');
+function solve(words, text) {
+    let usedWords = words.split(', ');
+
+    for(word of usedWords){
+        let symbols = '*'.repeat(word.length);
+
+        text = text.replace(symbols, word);
     }
+
+    console.log(text);
 }
-solve('I love JavaScript', 'JavaScript');
+solve('great, learning',
+'softuni is ***** place for ******** new programming languages');
