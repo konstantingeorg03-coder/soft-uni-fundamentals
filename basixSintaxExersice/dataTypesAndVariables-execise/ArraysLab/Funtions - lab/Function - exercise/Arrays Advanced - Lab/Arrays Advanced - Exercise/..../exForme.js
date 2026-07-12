@@ -1,13 +1,29 @@
-function solve(words, text) {
-    let usedWords = words.split(', ');
+function solve(arr) {
+    let [str1, str2, str3] = arr;
 
-    for(word of usedWords){
-        let symbols = '*'.repeat(word.length);
+    let useStr = str1 + str2;
 
-        text = text.replace(symbols, word);
+    let usedLetters = ['a', 'e', 'i', 'o', 'u'];
+
+    let str4 = 0;
+
+    for(let letters of useStr){
+        if(usedLetters.includes(letters)){
+            let replacementLetters =  str3[str4].toUpperCase();
+
+            useStr = useStr.replace(letters, replacementLetters);
+
+            str4++;
+
+            if(str4 >= str3.length){
+                str4 = 0;
+            }
+        }
     }
 
-    console.log(text);
+    console.log(`Your generated password is ${useStr.split('').reverse().join('')}`);
 }
-solve('great, learning',
-'softuni is ***** place for ******** new programming languages');
+solve([
+'ilovepizza', 'ihatevegetables',
+'orange'
+]);
