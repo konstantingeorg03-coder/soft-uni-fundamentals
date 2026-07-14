@@ -1,29 +1,14 @@
-function solve(arr) {
-    let [str1, str2, str3] = arr;
+function solve(input) {
+    let pattern = /\+359([ -])2\1\d{3}\1\d{4}\b/g;
 
-    let useStr = str1 + str2;
+    let matches = input[0].matchAll(pattern);
 
-    let usedLetters = ['a', 'e', 'i', 'o', 'u'];
+    let output = [];
 
-    let str4 = 0;
-
-    for(let letters of useStr){
-        if(usedLetters.includes(letters)){
-            let replacementLetters =  str3[str4].toUpperCase();
-
-            useStr = useStr.replace(letters, replacementLetters);
-
-            str4++;
-
-            if(str4 >= str3.length){
-                str4 = 0;
-            }
-        }
+    for(let match of matches){
+        output.push(match[0]);
     }
 
-    console.log(`Your generated password is ${useStr.split('').reverse().join('')}`);
+    console.log(output.join(', '));
 }
-solve([
-'ilovepizza', 'ihatevegetables',
-'orange'
-]);
+solve(['+359 2 222 2222,359-2-222-2222, +359/2/222/2222, +359-2 222 2222 +359 2-222-2222, +359-2-222-222, +359-2-222-22222 +359-2-222-2222']);
