@@ -1,14 +1,43 @@
-function solve(input) {
-    let pattern = /\+359([ -])2\1\d{3}\1\d{4}\b/g;
+function solve(arr) {
+    let competitors = arr.shift().split(', ');
 
-    let matches = input[0].matchAll(pattern);
+    let competitorsResults = {};
 
-    let output = [];
-
-    for(let match of matches){
-        output.push(match[0]);
+    for(let competitor of competitors){
+        competitorsResults[competitor] = 0;
     }
 
-    console.log(output.join(', '));
+    let command = arr.shift();
+
+    let lettersPattern = /[A-Za-z]/g;
+    let digitsPattern = /\d/g;
+
+    while(command !== 'end of race'){
+        let lettersMatches = command.match(lettersPattern);
+        let participant = lettersMatches.join('');
+
+        let digitsMatches = command.match(digitsPattern);
+        let distance = digitsMatches.map(Number).reduce((a, b) => a + b);
+
+        if(participant in competitorsResults){
+            competitorsResults[participant] += distance;
+        }
+
+        command = arr.shift();
+    }
+
+    let entries = Object.entries(competitorsResults).sort((a, b) => b[1] - a[1]);
+
+    console.log(`1st place: ${entries[0][0]}`);
+    console.log(`2nd place: ${entries[1][0]}`);
+    console.log(`3rd place: ${entries[2][0]}`);
+
 }
-solve(['+359 2 222 2222,359-2-222-2222, +359/2/222/2222, +359-2 222 2222 +359 2-222-2222, +359-2-222-222, +359-2-222-22222 +359-2-222-2222']);
+solve(['George, Peter, Bill, Tom',
+'G4e@55or%6g6!68e!!@ ',
+'R1@!3a$y4456@',
+'B5@i@#123ll',
+'G@e54o$r6ge#',
+'7P%et^#e5346r',
+'T$o553m&6',
+'end of race']);
