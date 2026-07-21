@@ -1,43 +1,52 @@
 function solve(arr) {
-    let competitors = arr.shift().split(', ');
+    let decryptPattern = /[star]/gi;
 
-    let competitorsResults = {};
+    let countMsg = Number(arr.shift());
 
-    for(let competitor of competitors){
-        competitorsResults[competitor] = 0;
-    }
+    let attacked = [];
+    let destroyed = [];
 
-    let command = arr.shift();
+    for (let currentMsg = 1; currentMsg <= countMsg; currentMsg++) {
+        let textMsg = arr.shift();
 
-    let lettersPattern = /[A-Za-z]/g;
-    let digitsPattern = /\d/g;
+        let match = textMsg.match(decryptPattern);
+        let key = match ? match.length : 0;
 
-    while(command !== 'end of race'){
-        let lettersMatches = command.match(lettersPattern);
-        let participant = lettersMatches.join('');
+        let decryptMsg = '';
 
-        let digitsMatches = command.match(digitsPattern);
-        let distance = digitsMatches.map(Number).reduce((a, b) => a + b);
+        for (let char of textMsg) {
+            let charCode = char.charCodeAt(0);
+            let decryptedCharCode = charCode - key;
+            let decryptedChar = String.fromCharCode(decryptedCharCode);
 
-        if(participant in competitorsResults){
-            competitorsResults[participant] += distance;
+            decryptMsg += decryptedChar;
         }
 
-        command = arr.shift();
+        let usedPattern = /@(?<planet>[A-Za-z]+)[^@\-!:>]*:(?<population>\d+)[^@\-!:>]*!(?<type>[AD])![^@\-!:>]*->(?<soldiers>\d+)/;
+
+        let planetMatch = decryptMsg.match(usedPattern);
+
+        if (planetMatch) {
+            let planet = planetMatch.groups.planet;
+            let type = planetMatch.groups.type;
+
+            if (type === 'A') {
+                attacked.push(planet);
+            } else {
+                destroyed.push(planet);
+            }
+        }
     }
 
-    let entries = Object.entries(competitorsResults).sort((a, b) => b[1] - a[1]);
+    attacked.sort((a, b) => a.localeCompare(b));
+    destroyed.sort((a, b) => a.localeCompare(b));
 
-    console.log(`1st place: ${entries[0][0]}`);
-    console.log(`2nd place: ${entries[1][0]}`);
-    console.log(`3rd place: ${entries[2][0]}`);
+    console.log(`Attacked planets: ${attacked.length}`);
+    attacked.forEach(p => console.log(`-> ${p}`));
 
+    console.log(`Destroyed planets: ${destroyed.length}`);
+    destroyed.forEach(p => console.log(`-> ${p}`));
 }
-solve(['George, Peter, Bill, Tom',
-'G4e@55or%6g6!68e!!@ ',
-'R1@!3a$y4456@',
-'B5@i@#123ll',
-'G@e54o$r6ge#',
-'7P%et^#e5346r',
-'T$o553m&6',
-'end of race']);
+solve(['2',
+'STCDoghudd4=63333$D$0A53333',
+'EHfsytsnhf?8555&I&2C9555SR']);
