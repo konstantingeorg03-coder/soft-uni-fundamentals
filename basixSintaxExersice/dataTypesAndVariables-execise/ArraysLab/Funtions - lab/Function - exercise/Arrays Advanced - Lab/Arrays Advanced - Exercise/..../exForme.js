@@ -1,52 +1,49 @@
-function solve(arr) {
-    let decryptPattern = /[star]/gi;
+function solve(arr){
+    let password = arr.shift();
 
-    let countMsg = Number(arr.shift());
+    let command = arr.shift();
 
-    let attacked = [];
-    let destroyed = [];
+    while(command !== 'Done'){
+        let tokens = command.split(' ');
 
-    for (let currentMsg = 1; currentMsg <= countMsg; currentMsg++) {
-        let textMsg = arr.shift();
+        let action = tokens.shift();
 
-        let match = textMsg.match(decryptPattern);
-        let key = match ? match.length : 0;
+        if(action === 'TakeOdd'){
+            let newPass = '';
+            for(let i = 1; i < password.length; i += 2){
+                newPass += password[i];
+            }
 
-        let decryptMsg = '';
+            password = newPass;
 
-        for (let char of textMsg) {
-            let charCode = char.charCodeAt(0);
-            let decryptedCharCode = charCode - key;
-            let decryptedChar = String.fromCharCode(decryptedCharCode);
+            console.log(password);
+        }else if(action === 'Cut'){
+            let [idx, length] = tokens.map(Number);
 
-            decryptMsg += decryptedChar;
-        }
+            let substr = password.substring(idx, idx + length);
 
-        let usedPattern = /@(?<planet>[A-Za-z]+)[^@\-!:>]*:(?<population>\d+)[^@\-!:>]*!(?<type>[AD])![^@\-!:>]*->(?<soldiers>\d+)/;
+            password = password.replace(substr, '');
 
-        let planetMatch = decryptMsg.match(usedPattern);
+            console.log(password);
+        }else if(action === 'Substitute'){
+            let [substring, substitude] = tokens;
 
-        if (planetMatch) {
-            let planet = planetMatch.groups.planet;
-            let type = planetMatch.groups.type;
-
-            if (type === 'A') {
-                attacked.push(planet);
-            } else {
-                destroyed.push(planet);
+            if(password.includes(substring)){
+                password = password.split(substring).join(substitude);
+                console.log(password);
+            }else{
+                console.log('Nothing to replace!');
             }
         }
+
+        command = arr.shift();
     }
 
-    attacked.sort((a, b) => a.localeCompare(b));
-    destroyed.sort((a, b) => a.localeCompare(b));
-
-    console.log(`Attacked planets: ${attacked.length}`);
-    attacked.forEach(p => console.log(`-> ${p}`));
-
-    console.log(`Destroyed planets: ${destroyed.length}`);
-    destroyed.forEach(p => console.log(`-> ${p}`));
+    console.log(`Your password is: ${password}`);
 }
-solve(['2',
-'STCDoghudd4=63333$D$0A53333',
-'EHfsytsnhf?8555&I&2C9555SR']);
+solve(['Siiceercaroetavm!:?:ahsott.:i:nstupmomceqr', 
+'TakeOdd',
+'Cut 15 3',
+'Substitute :: -',
+'Substitute | ^',
+'Done']);
