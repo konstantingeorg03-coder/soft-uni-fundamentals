@@ -3,6 +3,8 @@ function solve(arr){
 
     let countBarCodes = Number(arr.shift());
 
+    let product = '';
+
     for(let currentCode = 0; currentCode < countBarCodes; currentCode++){
         let usedCode = arr.shift();
 
@@ -14,14 +16,15 @@ function solve(arr){
             let digits = barcode.match(/\d/g);
 
             if(digits){
-                let productDigits = digits.join('');
+                product = digits.join('');
             }else{
                 product = '00';
             }
             console.log(`Product group: ${product}`);
+        }else{
+            console.log('Invalid barcode');
         }
     }
-
 }
 solve(['3',
 '@#FreshFisH@#',
