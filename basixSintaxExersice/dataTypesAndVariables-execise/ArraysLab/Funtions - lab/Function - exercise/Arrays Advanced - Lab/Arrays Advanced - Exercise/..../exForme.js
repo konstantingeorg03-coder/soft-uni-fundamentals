@@ -1,49 +1,31 @@
 function solve(arr){
-    let password = arr.shift();
+    let pattern = /^@[#]+(?<barcode>[A-Z][A-Za-z0-9]{4,}[A-Z])@[#]+$/;
 
-    let command = arr.shift();
+    let count = Number(arr.shift());
 
-    while(command !== 'Done'){
-        let tokens = command.split(' ');
+    let productGroup = '';
+    for(let currentCode = 0; currentCode < count; currentCode++){
+        let currentBarCode = arr.shift();
 
-        let action = tokens.shift();
+        let match = currentBarCode.match(pattern);
 
-        if(action === 'TakeOdd'){
-            let newPass = '';
-            for(let i = 1; i < password.length; i += 2){
-                newPass += password[i];
-            }
+        if(match){
+            let usedBarCode = match.groups.barcode;
 
-            password = newPass;
+            let codeDigits = usedBarCode.match(/\d/g);
 
-            console.log(password);
-        }else if(action === 'Cut'){
-            let [idx, length] = tokens.map(Number);
-
-            let substr = password.substring(idx, idx + length);
-
-            password = password.replace(substr, '');
-
-            console.log(password);
-        }else if(action === 'Substitute'){
-            let [substring, substitude] = tokens;
-
-            if(password.includes(substring)){
-                password = password.split(substring).join(substitude);
-                console.log(password);
-            }else{
-                console.log('Nothing to replace!');
-            }
+            productGroup = codeDigits ? codeDigits.join('') : '00';
+        }else{
+            productGroup = '00';
         }
 
-        command = arr.shift();
-    }
+        console.log(`Product group: ${productGroup}`);
 
-    console.log(`Your password is: ${password}`);
+    }
 }
-solve(['Siiceercaroetavm!:?:ahsott.:i:nstupmomceqr', 
-'TakeOdd',
-'Cut 15 3',
-'Substitute :: -',
-'Substitute | ^',
-'Done']);
+solve([
+    "3",
+    "@#FreshFisH@#",
+    "@###Brea0D@###",
+    "@##Che4s6E@##"
+]);
