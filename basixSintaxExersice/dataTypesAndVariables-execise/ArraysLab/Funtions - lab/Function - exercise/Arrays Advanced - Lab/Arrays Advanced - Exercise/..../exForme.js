@@ -1,40 +1,33 @@
-function solve(input){
-    let pattern = /(?<start>@|#)(?<word>[A-Za-z]{3,})\k<start>\k<start>(?<secondWord>[A-Za-z]{3,})\k<start>/g;
+function solve(arr){
+    let pattern = /^(?<start>@[#]+)(?<barCode>[A-Z][A-Za-z0-9]{4,}[A-Z])(?<end>@[#]+)$/;
+    
+    let count = Number(arr.shift());
 
-    let text = input[0];
+    let productGroup = '';
 
-    let mirrorWords = [];
+    for(let i = 0; i < count; i++){
+        let currentBarCode = arr.shift();
 
-    let match;
+        let match = currentBarCode.match(pattern);
 
-    let countPairs = 0;
-    while((match = pattern.exec(text)) !== null){
-        let word = match.groups.word;
+        if(match){
+            let barCode = match.groups.barCode;
 
-        let secondWord = match.groups.secondWord;
+            let digits = barCode.match(/\d/g);
 
-        let reversedWord = secondWord.split('').reverse().join('');
+            if(digits){
+                productGroup = digits.join('');
+            }else{
+                productGroup = '00';
+            }
 
-        if(word === reversedWord){
-            mirrorWords.push(`${word} <=> ${secondWord}`);
-        }
-
-        countPairs++;
-    }
-
-    if(countPairs === 0){
-            console.log('No word pairs found!');
+            console.log(`Product group: ${productGroup}`);
         }else{
-            console.log(`${countPairs} word pairs found!`);
+            console.log('Invalid barcode');
         }
-
-    if(mirrorWords.length === 0){
-        console.log('No mirror words!');
-    }else{
-        console.log('The mirror words are:');
-        console.log(mirrorWords.join(', '));
     }
 }
-solve([
-    '@mix#tix3dj#poOl##loOp#wl@@bong&song%4very$long@thong#Part##traP##@@leveL@@Level@##car#rac##tu@pack@@ckap@#rr#sAw##wAs#r#@w1r'
-]);
+solve(['3',
+'@#FreshFisH@#',
+'@###Brea0D@###',
+'@##Che4s6E@##']);
