@@ -1,31 +1,16 @@
 function solve(arr){
-    let pattern = /^@[#]+(?<barcode>[A-Z][A-Za-z0-9]{4,}[A-Z])@[#]+$/;
-
-    let count = Number(arr.shift());
-
-    let productGroup = '';
-    for(let currentCode = 0; currentCode < count; currentCode++){
-        let currentBarCode = arr.shift();
-
-        let match = currentBarCode.match(pattern);
-
-        if(match){
-            let usedBarCode = match.groups.barcode;
-
-            let codeDigits = usedBarCode.match(/\d/g);
-
-            productGroup = codeDigits ? codeDigits.join('') : '00';
-        }else{
-            productGroup = '00';
-        }
-
-        console.log(`Product group: ${productGroup}`);
-
-    }
+    
 }
 solve([
-    "3",
-    "@#FreshFisH@#",
-    "@###Brea0D@###",
-    "@##Che4s6E@##"
+    '3',
+'Audi A6|38000|62',
+'Mercedes CLS|11000|35',
+'Volkswagen Passat CC|45678|5',
+'Drive : Audi A6 : 543 : 47',
+'Drive : Mercedes CLS : 94 : 11',
+'Drive : Volkswagen Passat CC : 69 : 8',
+'Refuel : Audi A6 : 50',
+'Revert : Mercedes CLS : 500',
+'Revert : Audi A6 : 30000',
+'Stop'
 ]);
