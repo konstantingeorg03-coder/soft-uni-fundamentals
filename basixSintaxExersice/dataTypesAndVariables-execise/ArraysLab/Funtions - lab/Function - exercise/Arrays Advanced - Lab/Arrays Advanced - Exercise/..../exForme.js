@@ -1,33 +1,32 @@
 function solve(arr){
-    let pattern = /^(?<start>@[#]+)(?<barCode>[A-Z][A-Za-z0-9]{4,}[A-Z])(?<end>@[#]+)$/;
-    
-    let count = Number(arr.shift());
+    let text = arr.shift();
 
-    let productGroup = '';
+    let pattern = /(?<start>[::|\*\*])(?<emojiName>[A-Z][a-z]{2,})\k<start>/g;
 
-    for(let i = 0; i < count; i++){
-        let currentBarCode = arr.shift();
+    let digits = /\d/;
 
-        let match = currentBarCode.match(pattern);
+    let match = text.match(digits);
 
-        if(match){
-            let barCode = match.groups.barCode;
+    let coolThreShold = 1;
 
-            let digits = barCode.match(/\d/g);
+    for(let digit of match){
+        coolThreShold *= Number(digit);
+    }
 
-            if(digits){
-                productGroup = digits.join('');
-            }else{
-                productGroup = '00';
-            }
+    console.log(`Cool threshold: ${coolThreshold}`);
 
-            console.log(`Product group: ${productGroup}`);
-        }else{
-            console.log('Invalid barcode');
-        }
+    let patternEmoji = text.matchAll(pattern);
+
+    let emojies = [];
+
+    let ascii = 0;
+
+    for(let letter of patternEmoji){
+        ascii = letter.charCodeAt();
+    }
+
+    if(ascii >= coolThreShold){
+        
     }
 }
-solve(['3',
-'@#FreshFisH@#',
-'@###Brea0D@###',
-'@##Che4s6E@##']);
+solve(['In the Sofia Zoo there are 311 animals in total! ::Smiley:: This includes 3 **Tigers**, 1 ::Elephant:, 12 **Monk3ys**, a **Gorilla::, 5 ::fox:es: and 21 different types of :Snak::Es::. ::Mooning:: **Shy**']);
