@@ -1,67 +1,34 @@
 function solve(arr){
-    let activityKey = arr.shift();
+    let text = arr.shift();
 
-    let command = arr.shift();
+    let pattern = /(?<start>[#\|])(?<product>[A-Za-z ]+)\k<start>(?<date>\d{2}\/\d{2}\/\d{2})\k<start>(?<calories>\d+)\k<start>/g;
 
-    while(command !== 'Generate'){
-        let tokens = command.split('>>>');
+    let match = text.matchAll(pattern);
 
-        let action = tokens[0];
+    let totalcalories = 0;
 
-        if(action === 'Contains'){
-            let substr = tokens[1];
+    let output = [];
 
-            if(activityKey.includes(substr)){
-                console.log(`${activityKey} contains ${substr}`);
-            }else{
-                console.log('Substring not found!');
-            }
-        }else if(action === 'Flip'){
-            let type = tokens[1];
+    for(let matches of match){
+        let productName = matches.groups.productName;
 
-            let startIdx = Number(tokens[2]);
+        let dateProduct = matches.groups.dateProduct;
 
-            let endIdx = Number(tokens[3]);
+        let caloriesPr = matches.groups.caloriesPr;
 
-            let part = activityKey.slice(startIdx, endIdx);
+        caloriesPr = Number(caloriesPr);
 
-            if(type === 'Upper'){
-                part = part.toUpperCase();
+        totalcalories += caloriesPr;
 
-            }else if(type === 'Lower'){
-                part = part.toLowerCase();
-            }
-
-            let firstPart = activityKey.slice(0, startIdx);
-
-            let secondPart = activityKey.slice(endIdx);
-
-            activityKey = firstPart + part + secondPart;
-
-            console.log(activityKey);
-        }else if(action === 'Slice'){
-            let startIdx = Number(tokens[1]);
-
-            let endIdx = Number(tokens[2]);
-
-            let firstPart = activityKey.slice(0, startIdx);
-
-            let secondPart = activityKey.slice(endIdx);
-
-            activityKey = firstPart + secondPart;
-
-            console.log(activityKey);
-        }
-
-        command = arr.shift();
+        output.push(`Item: ${productName}, Best before: ${dateProduct}, Nutrition: ${caloriesPr}`);
     }
 
-    console.log(`Your activation key is: ${activityKey}`);
+    let days = Math.floor(totalcalories / 2000);
+
+    console.log(`You have food to last you for: ${days} days!`);
+
+    for(let product of output){
+        console.log(product);
+    }
 }
-solve(['abcdefghijklmnopqrstuvwxyz',
-'Slice>>>2>>>6',
-'Flip>>>Upper>>>3>>>14',
-'Flip>>>Lower>>>5>>>7',
-'Contains>>>def',
-'Contains>>>deF',
-'Generate'])
+solve([`#Bread#19/03/21#4000#|Invalid|03/03.20||Apples|08/10/20|200||Carrots|06/08/20|500||Not right|6.8.20|5|`])

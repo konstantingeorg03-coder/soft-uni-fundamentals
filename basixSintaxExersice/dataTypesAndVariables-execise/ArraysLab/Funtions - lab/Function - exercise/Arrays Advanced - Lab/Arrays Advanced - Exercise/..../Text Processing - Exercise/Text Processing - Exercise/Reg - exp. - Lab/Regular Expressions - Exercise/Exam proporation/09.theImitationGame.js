@@ -9,26 +9,23 @@ function solve(arr){
         let action = tokens[0];
 
         if(action === 'Move'){
-            let numberOfLetters = Number(tokens[1]);
+            let count = Number(tokens[1]);
 
-            let firstPart = message.slice(0, numberOfLetters);
+            let firstPart = message.substring(0, count);
 
-            let secondPart = message.slice(numberOfLetters);
+            let secondPart = message.substring(count);
 
-            let result = secondPart + firstPart;
-
-            message = result;
-
+            message = secondPart + firstPart;
         }else if(action === 'Insert'){
             let index = Number(tokens[1]);
 
             let value = tokens[2];
 
-            let firstPart = message.slice(0, index);
+            let part = message.substring(0, index);
 
-            let secondPart = message.slice(index);
+            let secondPart = message.substring(index);
 
-            message = firstPart + value + secondPart;
+            message = part + value + secondPart;
 
         }else if(action === 'ChangeAll'){
             let substr = tokens[1];
