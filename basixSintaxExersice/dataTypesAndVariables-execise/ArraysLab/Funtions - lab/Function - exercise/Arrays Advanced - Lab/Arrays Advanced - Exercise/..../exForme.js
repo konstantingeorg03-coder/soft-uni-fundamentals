@@ -1,88 +1,40 @@
 function solve(arr){
-    let num = Number(arr.shift());
+    let text = arr[0];
 
-    let plantsStats = {};
+    let pattern = /(?<startend>@|#)(?<wordName>[A-Za-z]{3,})\k<startend>\k<startend>(?<secondWord>[A-Za-z]{3,})\k<startend>/g;
 
-    for(let stat = 0; stat < num; stat++){
-        let tokens = arr.shift().split('<->');
+    let match = text.matchAll(pattern);
 
-        let plant = tokens[0];
+    let mirrorWords = [];
 
-        let rarity = Number(tokens[1]);
+    let sum = 0;
 
-        plantsStats[plant] = {rarity, ratings: []};
+    for(let valid of match){
+        sum++;
+
+        let wordName = valid.groups.wordName;
+
+        let secondWord = valid.groups.secondWord;
+
+        let originalWord = secondWord.split('').reverse().join('');
+
+        if(originalWord === wordName){
+            mirrorWords.push(`${wordName} <=> ${originalWord}`);
+        }
     }
 
-    let command = arr.shift();
-
-    while(command !== 'Exhibition'){
-        let tokens = command.split(/: | - /);
-
-        let action = tokens[0];
-
-        let plant = tokens[1];
-
-        if(!(plant in plantsStats)){
-            console.log('error');
-
-            command = arr.shift();
-
-            continue;
-        }
-
-        if(action === 'Rate'){
-            let plant = tokens[1];
-
-            let rating = Number(tokens[2]);
-
-            plantsStats[plant].ratings.push(rating);
-
-        }else if(action === 'Update'){
-            let plant = tokens[1];
-
-            let newRarity = Number(tokens[2]);
-
-            plantsStats[plant].rarity = newRarity;
-
-        }else if(action === 'Reset'){
-            let plant = tokens[1];
-
-            plantsStats[plant].ratings = [];
-        }
-
-        command = arr.shift();
+    if(sum === 0){
+        console.log('No word pairs found!');
+    }else{
+        console.log(`${sum} word pairs found!`);
     }
 
-    console.log('Plants for the exhibition:');
+    if(mirrorWords.length === 0){
+        console.log('No mirror words!');
+    }else{
+        console.log('The mirror words are:');
 
-    for(let plant in plantsStats){
-        let rarity = plantsStats[plant].rarity;
-
-        let ratings = plantsStats[plant].ratings;
-
-        let sum = 0;
-
-        for(let rating of ratings){
-            sum += rating;
-        }
-
-        let averageRating = 0;
-
-        if(ratings.length > 0){
-            averageRating = sum / ratings.length;
-        }
-
-        console.log(`${plant}; Rarity: ${rarity}; Rating: ${averageRating.toFixed(2)}`);
+        console.log(mirrorWords.join(', '));
     }
 }
-solve(['3',
-'Arnoldii<->4',
-'Woodii<->7',
-'Welwitschia<->2',
-'Rate: Woodii - 10',
-'Rate: Welwitschia - 7',
-'Rate: Arnoldii - 3',
-'Rate: Woodii - 5',
-'Update: Woodii - 5',
-'Reset: Arnoldii',
-'Exhibition']);
+solve(['@mix#tix3dj#poOl##loOp#wl@@bong&song%4very$long@thong#Part##traP##@@leveL@@Level@##car#rac##tu@pack@@ckap@#rr#sAw##wAs#r#@w1r']);
