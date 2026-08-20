@@ -1,40 +1,88 @@
 function solve(arr){
-    let pattern = /(?<separator>#|\|)(?<itemName>[A-Za-z ]+)\k<separator>(?<date>\d{2}\/\d{2}\/\d{2})\k<separator>(?<calories>\d+)\k<separator>/g;
+    let num = Number(arr.shift());
 
-    let text = arr[0];
+    let plantsStats = {};
 
-    let match = text.matchAll(pattern);
+    for(let stat = 0; stat < num; stat++){
+        let tokens = arr.shift().split('<->');
 
-    let sumCals = 0;
+        let plant = tokens[0];
 
-    let days = 0;
+        let rarity = Number(tokens[1]);
 
-    let foods = [];
-    
-    for(let valid of match){
-        let itemName = valid.groups.itemName;
-
-        let date = valid.groups.date;
-
-        let calories = valid.groups.calories;
-
-        sumCals += Number(calories);
-
-        foods.push({itemName, date, calories});
+        plantsStats[plant] = {rarity, ratings: []};
     }
 
-    days = Math.floor(sumCals / 2000);
+    let command = arr.shift();
 
-    console.log(`You have food to last you for: ${days} days!`);
+    while(command !== 'Exhibition'){
+        let tokens = command.split(/: | - /);
 
-    for(let food of foods){
-        let itemName = food.itemName;
+        let action = tokens[0];
 
-        let date = food.date;
+        let plant = tokens[1];
 
-        let calories = food.calories;
+        if(!(plant in plantsStats)){
+            console.log('error');
 
-        console.log(`Item: ${itemName}, Best before: ${date}, Nutrition: ${calories}`);``
+            command = arr.shift();
+
+            continue;
+        }
+
+        if(action === 'Rate'){
+            let plant = tokens[1];
+
+            let rating = Number(tokens[2]);
+
+            plantsStats[plant].ratings.push(rating);
+
+        }else if(action === 'Update'){
+            let plant = tokens[1];
+
+            let newRarity = Number(tokens[2]);
+
+            plantsStats[plant].rarity = newRarity;
+
+        }else if(action === 'Reset'){
+            let plant = tokens[1];
+
+            plantsStats[plant].ratings = [];
+        }
+
+        command = arr.shift();
+    }
+
+    console.log('Plants for the exhibition:');
+
+    for(let plant in plantsStats){
+        let rarity = plantsStats[plant].rarity;
+
+        let ratings = plantsStats[plant].ratings;
+
+        let sum = 0;
+
+        for(let rating of ratings){
+            sum += rating;
+        }
+
+        let averageRating = 0;
+
+        if(ratings.length > 0){
+            averageRating = sum / ratings.length;
+        }
+
+        console.log(`${plant}; Rarity: ${rarity}; Rating: ${averageRating.toFixed(2)}`);
     }
 }
-solve(['#Bread#19/03/21#4000#|Invalid|03/03.20||Apples|08/10/20|200||Carrots|06/08/20|500||Not right|6.8.20|5|']);
+solve(['3',
+'Arnoldii<->4',
+'Woodii<->7',
+'Welwitschia<->2',
+'Rate: Woodii - 10',
+'Rate: Welwitschia - 7',
+'Rate: Arnoldii - 3',
+'Rate: Woodii - 5',
+'Update: Woodii - 5',
+'Reset: Arnoldii',
+'Exhibition']);
