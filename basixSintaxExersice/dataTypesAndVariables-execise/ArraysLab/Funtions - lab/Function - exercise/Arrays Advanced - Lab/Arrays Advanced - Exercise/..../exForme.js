@@ -1,40 +1,64 @@
 function solve(arr){
-    let text = arr[0];
+    let stops = arr.shift();
+    
+    let command = arr.shift();
 
-    let pattern = /(?<startend>@|#)(?<wordName>[A-Za-z]{3,})\k<startend>\k<startend>(?<secondWord>[A-Za-z]{3,})\k<startend>/g;
+    while(command !== 'Travel'){
+        let tokens = command.split(':');
 
-    let match = text.matchAll(pattern);
+        let action = tokens[0];
 
-    let mirrorWords = [];
+        if(action === 'Add Stop'){
+            let idx = Number(tokens[1]);
 
-    let sum = 0;
+            let str = tokens[2];
 
-    for(let valid of match){
-        sum++;
+            if(idx >= 0 && idx < stops.length){
+                let first = stops.substring(0, idx);
 
-        let wordName = valid.groups.wordName;
+                let second = stops.substring(idx);
 
-        let secondWord = valid.groups.secondWord;
+                stops = first + str + second;
 
-        let originalWord = secondWord.split('').reverse().join('');
+                console.log(stops);
+            }
 
-        if(originalWord === wordName){
-            mirrorWords.push(`${wordName} <=> ${originalWord}`);
+        }else if(action === 'Remove Stop'){
+            let startIdx = Number(tokens[1]);
+            
+            let endIdx = Number(tokens[2]);
+
+            if(startIdx >= 0 && startIdx < stops.length && endIdx >= 0 && endIdx < stops.length){
+                let first = stops.substring(0, startIdx);
+
+                let second = stops.substring(endIdx + 1);
+
+                stops = first + second;
+
+                console.log(stops);
+            }
+
+        }else if(action === 'Switch'){
+            let oldStr = tokens[1];
+
+            let newStr = tokens[2];
+
+            if(stops.includes(oldStr)){
+                stops = stops.replaceAll(oldStr, newStr);
+            }
+
+            console.log(stops);
         }
+
+        command = arr.shift();
     }
 
-    if(sum === 0){
-        console.log('No word pairs found!');
-    }else{
-        console.log(`${sum} word pairs found!`);
-    }
+    console.log(`Ready for world tour! Planned stops:`);
 
-    if(mirrorWords.length === 0){
-        console.log('No mirror words!');
-    }else{
-        console.log('The mirror words are:');
-
-        console.log(mirrorWords.join(', '));
-    }
+    console.log(`${stops}`);
 }
-solve(['@mix#tix3dj#poOl##loOp#wl@@bong&song%4very$long@thong#Part##traP##@@leveL@@Level@##car#rac##tu@pack@@ckap@#rr#sAw##wAs#r#@w1r']);
+solve(['Hawai::Cyprys-Greece',
+'Add Stop:7:Rome',
+'Remove Stop:11:16',
+'Switch:Hawai:Bulgaria',
+'Travel']);
