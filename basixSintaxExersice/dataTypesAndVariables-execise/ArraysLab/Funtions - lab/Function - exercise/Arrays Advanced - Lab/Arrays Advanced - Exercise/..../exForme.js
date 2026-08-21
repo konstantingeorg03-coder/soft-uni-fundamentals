@@ -1,64 +1,98 @@
 function solve(arr){
-    let stops = arr.shift();
-    
+    let countCars = Number(arr.shift());
+
+    let carStats = {};
+
+    for(let carDescription = 0; carDescription < countCars; carDescription++){
+        let tokens = arr.shift().split('|');
+
+        let car = tokens[0];
+
+        let mileage = Number(tokens[1]);
+
+        let fuel = Number(tokens[2]);
+
+        carStats[car] = {mileage, fuel};
+    }
+
     let command = arr.shift();
 
-    while(command !== 'Travel'){
-        let tokens = command.split(':');
+    while(command !== 'Stop'){
+        let tokens = command.split(' : ');
 
         let action = tokens[0];
 
-        if(action === 'Add Stop'){
-            let idx = Number(tokens[1]);
+        if(action === 'Drive'){
+            let car = tokens[1];
 
-            let str = tokens[2];
+            let distance = Number(tokens[2]);
 
-            if(idx >= 0 && idx < stops.length){
-                let first = stops.substring(0, idx);
+            let fuel = Number(tokens[3]);
 
-                let second = stops.substring(idx);
+            if(carStats[car].fuel < fuel){
+                console.log('Not enough fuel to make that ride');
+            }else{
+                carStats[car].mileage += distance;
 
-                stops = first + str + second;
+                carStats[car].fuel -= fuel;
 
-                console.log(stops);
+                console.log(`${car} driven for ${distance} kilometers. ${fuel} liters of fuel consumed.`);
+
+                if(carStats[car].mileage >= 100000){
+                delete carStats[car];
+
+                console.log(`Time to sell the ${car}!`);
+                }
             }
+        }else if(action === 'Refuel'){
+            let car = tokens[1];
 
-        }else if(action === 'Remove Stop'){
-            let startIdx = Number(tokens[1]);
-            
-            let endIdx = Number(tokens[2]);
+            let fuel = Number(tokens[2]);
 
-            if(startIdx >= 0 && startIdx < stops.length && endIdx >= 0 && endIdx < stops.length){
-                let first = stops.substring(0, startIdx);
+            if(carStats[car].fuel + fuel > 75){
+                let addFuel = 75 - carStats[car].fuel;
 
-                let second = stops.substring(endIdx + 1);
+                carStats[car].fuel += addFuel;
 
-                stops = first + second;
+                console.log(`${car} refueled with ${addFuel} liters`);
+            }else{
+                carStats[car].fuel += fuel;
 
-                console.log(stops);
+                console.log(`${car} refueled with ${fuel} liters`);
             }
+        }else if(action === 'Revert'){
+            let car = tokens[1];
 
-        }else if(action === 'Switch'){
-            let oldStr = tokens[1];
+            let kilometers = Number(tokens[2]);
 
-            let newStr = tokens[2];
+            carStats[car].mileage -= kilometers;
 
-            if(stops.includes(oldStr)){
-                stops = stops.replaceAll(oldStr, newStr);
+            if(carStats[car].mileage < 10000){
+                carStats[car].mileage = 10000;
+            }else{
+                console.log(`${car} mileage decreased by ${kilometers} kilometers`);
             }
-
-            console.log(stops);
         }
 
         command = arr.shift();
     }
 
-    console.log(`Ready for world tour! Planned stops:`);
+    for(let car in carStats){
+        let mileage = carStats[car].mileage;
 
-    console.log(`${stops}`);
+        let fuel = carStats[car].fuel;
+
+        console.log(`${car} -> Mileage: ${mileage} kms, Fuel in the tank: ${fuel} lt.`);
+    }
 }
-solve(['Hawai::Cyprys-Greece',
-'Add Stop:7:Rome',
-'Remove Stop:11:16',
-'Switch:Hawai:Bulgaria',
-'Travel']);
+solve(['3',
+'Audi A6|38000|62',
+'Mercedes CLS|11000|35',
+'Volkswagen Passat CC|45678|5',
+'Drive : Audi A6 : 543 : 47',
+'Drive : Mercedes CLS : 94 : 11',
+'Drive : Volkswagen Passat CC : 69 : 8',
+'Refuel : Audi A6 : 50',
+'Revert : Mercedes CLS : 500',
+'Revert : Audi A6 : 30000',
+'Stop']);
