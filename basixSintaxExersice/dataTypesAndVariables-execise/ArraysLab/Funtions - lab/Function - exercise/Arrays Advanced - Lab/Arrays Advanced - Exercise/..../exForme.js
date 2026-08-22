@@ -1,31 +1,61 @@
 function solve(arr){
-    let barcodescount = Number(arr.shift());
+    let str = arr.shift();
 
-    let pattern = /^@#+(?<product>[A-Z][A-Za-z0-9]{4,}[A-Z])@#+$/;
+    let command = arr.shift();
 
-    for(let bar = 0; bar < barcodescount; bar++){
-        let barcode = arr.shift();
+    while(command !== 'Done'){
+        let tokens = command.split(' ');
 
-        let match = barcode.match(pattern);
+        let action = tokens[0];
 
-        if(match === null){
-            console.log('Invalid barcode');
-        }else{
-            let product = match.groups.product;
+        if(action === 'TakeOdd'){
+            let newStr = '';
 
-            let digits = /\d/g;
+            for(let i = 0; i < str.length; i++){
+                if(i % 2 === 1){
+                    newStr += str[i];
+                }
+            }
 
-            let digitMatch = product.match(digits);
+            str = newStr;
 
-            if(digitMatch === null){
-                console.log('Product group: 00');
+            console.log(str);
+
+        }else if(action === 'Cut'){
+            let idx = Number(tokens[1]);
+
+            let length = Number(tokens[2]);
+
+            let first = str.substring(0, idx);
+
+            let second = str.substring(idx + length);
+
+            str = first + second;
+
+            console.log(str);
+
+        }else if(action === 'Substitute'){
+            let substr = tokens[1];
+
+            let substitute = tokens[2];
+
+            if(str.includes(substr)){
+                str = str.replaceAll(substr, substitute);
+
+                console.log(str);
             }else{
-                console.log(`Product group: ${digitMatch.join('')}`);
+                console.log('Nothing to replace!');
             }
         }
+
+        command = arr.shift();
     }
+
+    console.log(`Your password is: ${str}`);
 }
-solve(['3',
-'@#FreshFisH@#',
-'@###Brea0D@###',
-'@##Che4s6E@##']);
+solve(['Siiceercaroetavm!:?:ahsott.:i:nstupmomceqr', 
+'TakeOdd',
+'Cut 15 3',
+'Substitute :: -',
+'Substitute | ^',
+'Done']);
