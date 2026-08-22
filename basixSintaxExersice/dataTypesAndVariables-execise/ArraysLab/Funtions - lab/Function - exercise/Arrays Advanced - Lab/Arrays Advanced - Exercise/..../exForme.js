@@ -1,60 +1,57 @@
 function solve(arr){
-    let message = arr.shift();
-
+    let phones = arr.shift().split(', ');
+    
     let command = arr.shift();
 
-    while(command !== 'Reveal'){
-        let tokens = command.split(':|:');
+    while(command !== 'End'){
+        let tokens = command.split(' - ');
 
         let action = tokens[0];
 
-        if(action === 'InsertSpace'){
-            let idx = Number(tokens[1]);
+        if(action === 'Add'){
+            let phone = tokens[1];
 
-            let first = message.substring(0, idx);
-
-            let second = message.substring(idx);
-
-            message = first + ' ' + second;
-
-            console.log(message);
-
-        }else if(action === 'Reverse'){
-            let substr = tokens[1];
-
-            if(message.includes(substr)){
-                let index = message.indexOf(substr);
-
-                let first = message.substring(0, index);
-
-                let second = message.substring(index + substr.length);
-            
-                message = first + second;
-
-                substr = substr.split('').reverse().join('');
-
-                message += substr;
+            if(!phones.includes(phone)){
+                phones.push(phone);
             }
+        }else if(action === 'Remove'){
+            let phone = tokens[1];
 
-            console.log(message);
+            if(phones.includes(phone)){
+                let index = phones.indexOf(phone);
 
-        }else if(action === 'ChangeAll'){
-            let substr = tokens[1];
+                phones.splice(index, 1);
+            }
+        }else if(action === 'Bonus phone'){
+            let phoneTokens = tokens[1].split(':');
 
-            let replacement = tokens[2];
+            let oldPhone = phoneTokens[0];
 
-            message = message.replaceAll(substr, replacement);
+            let newPhone = phoneTokens[1];
 
-            console.log(message);
+            if(phones.includes(oldPhone)){
+                let index = phones.indexOf(oldPhone);
+
+                phones.splice(index + 1, 0, newPhone);
+            }
+        }else if(action === 'Last'){
+            let phone = tokens[1];
+            
+            if(phones.includes(phone)){
+                let index = phones.indexOf(phone);
+
+                phones.splice(index, 1);
+
+                phones.push(phone);
+            }
         }
 
         command = arr.shift();
     }
 
-    console.log(`You have a new text message: ${message}`);
+    console.log(`${phones.join(', ')}`);
 }
-solve(['heVVodar!gniV',
-'ChangeAll:|:V:|:l',
-'Reverse:|:!gnil',
-'InsertSpace:|:5',
-'Reveal']);
+solve(['SamsungA50, MotorolaG5, IphoneSE',
+'Add - Iphone10',
+'Remove - IphoneSE',
+'End']);
