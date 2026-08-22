@@ -1,57 +1,31 @@
 function solve(arr){
-    let phones = arr.shift().split(', ');
-    
-    let command = arr.shift();
+    let barcodescount = Number(arr.shift());
 
-    while(command !== 'End'){
-        let tokens = command.split(' - ');
+    let pattern = /^@#+(?<product>[A-Z][A-Za-z0-9]{4,}[A-Z])@#+$/;
 
-        let action = tokens[0];
+    for(let bar = 0; bar < barcodescount; bar++){
+        let barcode = arr.shift();
 
-        if(action === 'Add'){
-            let phone = tokens[1];
+        let match = barcode.match(pattern);
 
-            if(!phones.includes(phone)){
-                phones.push(phone);
-            }
-        }else if(action === 'Remove'){
-            let phone = tokens[1];
+        if(match === null){
+            console.log('Invalid barcode');
+        }else{
+            let product = match.groups.product;
 
-            if(phones.includes(phone)){
-                let index = phones.indexOf(phone);
+            let digits = /\d/g;
 
-                phones.splice(index, 1);
-            }
-        }else if(action === 'Bonus phone'){
-            let phoneTokens = tokens[1].split(':');
+            let digitMatch = product.match(digits);
 
-            let oldPhone = phoneTokens[0];
-
-            let newPhone = phoneTokens[1];
-
-            if(phones.includes(oldPhone)){
-                let index = phones.indexOf(oldPhone);
-
-                phones.splice(index + 1, 0, newPhone);
-            }
-        }else if(action === 'Last'){
-            let phone = tokens[1];
-            
-            if(phones.includes(phone)){
-                let index = phones.indexOf(phone);
-
-                phones.splice(index, 1);
-
-                phones.push(phone);
+            if(digitMatch === null){
+                console.log('Product group: 00');
+            }else{
+                console.log(`Product group: ${digitMatch.join('')}`);
             }
         }
-
-        command = arr.shift();
     }
-
-    console.log(`${phones.join(', ')}`);
 }
-solve(['SamsungA50, MotorolaG5, IphoneSE',
-'Add - Iphone10',
-'Remove - IphoneSE',
-'End']);
+solve(['3',
+'@#FreshFisH@#',
+'@###Brea0D@###',
+'@##Che4s6E@##']);
