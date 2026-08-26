@@ -56,7 +56,7 @@ function solve(arr){
             }
 
         }else if(action === 'Replace'){
-            let substr = Number(tokens[1]);
+            let substr = tokens[1];
 
             let replacement = tokens[2];
 
