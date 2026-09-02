@@ -83,6 +83,7 @@ function solve(arr){
     }
 
     console.log(`Your access code is: ${code}`);
+    
 }
 solve([
     'A7bcD92xy',
