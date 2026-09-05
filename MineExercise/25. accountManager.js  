@@ -1,0 +1,103 @@
+function solve(arr){
+    let username = arr.shift();
+
+    let command = arr.shift();
+
+    while(command !== 'GameOver'){
+        let tokens = command.split(':');
+
+        let action = tokens[0];
+
+        if(action === 'Change'){
+            let oldPart = tokens[1];
+
+            let newPart = tokens[2];
+
+            username = username.replaceAll(oldPart, newPart);
+
+            console.log(username);
+
+        }else if(action === 'Insert'){
+            let idx = Number(tokens[1]);
+
+            let text = tokens[2];
+
+            let first = username.substring(0, idx);
+
+            let second = username.substring(idx);
+
+            username = first + text + second;
+
+            console.log(username);
+
+        }else if(action === 'Remove'){
+            let startIdx = Number(tokens[1]);
+
+            let count = Number(tokens[2]);
+
+            let first = username.substring(0, startIdx);
+
+            let third = username.substring(startIdx + count);
+
+            username = first + third;
+
+            console.log(username);
+
+        }else if(action === 'Move'){
+            let count = Number(tokens[1]);
+
+            let part = username.substring(0, count);
+
+            let second = username.substring(count);
+
+            username = second + part;
+
+            console.log(username);
+
+        }else if(action === 'Reverse'){
+            let substr = tokens[1];
+
+            if(username.includes(substr)){
+                let index = username.indexOf(substr);
+
+                let first = username.substring(0, index);
+
+                let second = username.substring(index + substr.length);
+
+                substr = substr.split('').reverse().join('');
+
+                username = first + second + substr;
+
+                console.log(username);
+
+            }else{
+                console.log('Substring not found!');
+            }
+
+        }else if(action === 'Check'){
+            let substr = tokens[1];
+
+            if(username.includes(substr)){
+                console.log(`Username contains ${substr}.`);
+
+            }else{
+                console.log(`Username does not contain ${substr}.`);
+            }
+        }
+
+        command = arr.shift();
+    }
+
+    console.log(`Final username: ${username}`);
+}
+solve([
+    'DarkKnightPlayer',
+    'Change:Dark:Shadow',
+    'Insert:6:X',
+    'Remove:6:1',
+    'Move:6',
+    'Check:Knight',
+    'Reverse:Player',
+    'Check:Shadow',
+    'GameOver'
+]);
